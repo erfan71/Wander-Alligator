@@ -41,8 +41,8 @@ public class AlligatorMoveArea : MonoBehaviour
             else
             {
                 Gizmos.DrawLine(points[i].position, points[0].position);
-            }
-        }
+            }          
+        }     
     }
     public List<Transform> GetPoints()
     {
