@@ -451,6 +451,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1399226579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1399226577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5458323594c2af44ea9cb9ebc0a5db70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkAnimationTrigger: Walk
+  idleAnimationTrigger: Idle
 --- !u!114 &1399226581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,7 +492,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4521539132613478, guid: ad5b5d2050e2719408267bef01b6e3c1, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4521539132613478, guid: ad5b5d2050e2719408267bef01b6e3c1, type: 2}
       propertyPath: m_LocalPosition.z

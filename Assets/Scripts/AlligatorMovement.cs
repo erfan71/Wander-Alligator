@@ -7,6 +7,7 @@ public class AlligatorMovement : MonoBehaviour {
 
     // Use this for initialization
     public AlligatorMoveArea moveArea;
+    private AlligatorAnimation animator;
     List<Transform> points;
     public bool OnEdge;
     public bool Target;
@@ -14,7 +15,7 @@ public class AlligatorMovement : MonoBehaviour {
     public Transform goal;
 
     void Start () {
-        points = moveArea.GetPoints();
+        animator = GetComponent<AlligatorAnimation>();
 
         if (OnEdge)
          MoveAlligatorOntheEdgesPoints();
@@ -22,6 +23,7 @@ public class AlligatorMovement : MonoBehaviour {
         {
             agent = GetComponent<NavMeshAgent>();
             agent.SetDestination(goal.position);
+            animator.Walk();
         }
 
     }

@@ -14,7 +14,6 @@ public class AlligatorMoveArea : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             points.Add(transform.GetChild(i));
-
         }
     }
     private void Update()
@@ -24,7 +23,6 @@ public class AlligatorMoveArea : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             points.Add(transform.GetChild(i));
-
         }
 #endif
     }
