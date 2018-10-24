@@ -1,15 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AlligatorMovement : MonoBehaviour {
 
     // Use this for initialization
     public AlligatorMoveArea moveArea;
     List<Transform> points;
+    public bool OnEdge;
+    public bool Target;
+    private NavMeshAgent agent;
+    public Transform goal;
 
     void Start () {
-        MoveAlligatorOntheEdgesPoints();
+        points = moveArea.GetPoints();
+
+        if (OnEdge)
+         MoveAlligatorOntheEdgesPoints();
+        else if (Target)
+        {
+            agent = GetComponent<NavMeshAgent>();
+            agent.SetDestination(goal.position);
+        }
 
     }
     void MoveAlligatorOntheEdgesPoints()

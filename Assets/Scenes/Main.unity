@@ -99,9 +99,9 @@ NavMeshSettings:
     serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.5
-    agentHeight: 2
+    agentHeight: 0.5
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -112,7 +112,35 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 1cfb4d41debcad64d9558992a56dcc00, type: 2}
+--- !u!1 &107434456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 107434457}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &107434457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 107434456}
+  m_LocalRotation: {x: 0.0000004390882, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.98, y: 1.89, z: 17.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +386,14 @@ Prefab:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 2715a864053c4fe418056353c2e7f634, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967263
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400000, guid: 2715a864053c4fe418056353c2e7f634, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2715a864053c4fe418056353c2e7f634, type: 3}
   m_IsPrefabAsset: 0
@@ -394,6 +430,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1127116196101118, guid: ad5b5d2050e2719408267bef01b6e3c1,
     type: 2}
   m_PrefabInternal: {fileID: 1593296116}
+--- !u!195 &1399226578
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1399226577}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 1
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 50
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.17
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &1399226581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,6 +463,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveArea: {fileID: 511716797}
+  OnEdge: 0
+  Target: 1
+  goal: {fileID: 107434457}
 --- !u!1001 &1593296116
 Prefab:
   m_ObjectHideFlags: 0
@@ -419,7 +479,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4521539132613478, guid: ad5b5d2050e2719408267bef01b6e3c1, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.62
       objectReference: {fileID: 0}
     - target: {fileID: 4521539132613478, guid: ad5b5d2050e2719408267bef01b6e3c1, type: 2}
       propertyPath: m_LocalPosition.z
@@ -445,7 +505,23 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 54089378968917768, guid: ad5b5d2050e2719408267bef01b6e3c1,
+        type: 2}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65589357956731968, guid: ad5b5d2050e2719408267bef01b6e3c1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95587518076804934, guid: ad5b5d2050e2719408267bef01b6e3c1,
+        type: 2}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 54089378968917768, guid: ad5b5d2050e2719408267bef01b6e3c1, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: ad5b5d2050e2719408267bef01b6e3c1, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1725543655
