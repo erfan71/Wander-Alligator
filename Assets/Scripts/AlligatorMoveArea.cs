@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,40 +6,45 @@ using UnityEngine.AI;
 public class AlligatorMoveArea : MonoBehaviour
 {
     [SerializeField] 
-    private List<NavMeshObstacle> points;
+    private List<Transform> points;
     void Start()
     {
 
-        points = new List<NavMeshObstacle>();
+        points = new List<Transform>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            points.Add(transform.GetChild(i).GetComponent<NavMeshObstacle>());
+            points.Add(transform.GetChild(i));
         }
     }
-    private void Update()
+    private void LateUpdate()
     {
 #if UNITY_EDITOR
-        points = new List<NavMeshObstacle>();
+        points = new List<Transform>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            NavMeshObstacle currentObs = transform.GetChild(i).GetComponent<NavMeshObstacle>();
-            NavMeshObstacle nextObs;
+            Transform currentTra = transform.GetChild(i);
+            Transform nextTra;
             Vector3 segmentObs = Vector3.zero;
             if (i != transform.childCount - 1)
             {
-                nextObs = transform.GetChild(i+1).GetComponent<NavMeshObstacle>();
+                nextTra = transform.GetChild(i + 1);
             }
             else
             {
-                nextObs = transform.GetChild(0).GetComponent<NavMeshObstacle>();
+                nextTra = transform.GetChild(0);
             }
-            segmentObs = nextObs.transform.position - currentObs.transform.position;
+            segmentObs = nextTra.transform.position - currentTra.transform.position;
 
-            currentObs.size = new Vector3(0.5f, 1, segmentObs.magnitude);
-            currentObs.center = new Vector3(0, -0.5f, currentObs.size.z/ 2.0f);
-            currentObs.transform.LookAt(nextObs.transform);
+            NavMeshObstacle curentObs = currentTra.GetComponent<NavMeshObstacle>();
+            curentObs.size = new Vector3(0.5f, 1, segmentObs.magnitude);
+            curentObs.center = new Vector3(0, -0.5f, curentObs.size.z/ 2.0f);
+            currentTra.LookAt(nextTra.transform);
 
-            points.Add(currentObs);
+            points.Add(currentTra);
+
+            RaycastHit hitInfo;
+            Physics.Raycast(new Vector3(currentTra.position.x,5, currentTra.position.z), new Vector3(0, -1, 0),out hitInfo,10);
+            currentTra.position = new Vector3(currentTra.position.x, hitInfo.point.y + 0.5f, currentTra.position.z);
         }
 #endif
     }
@@ -52,20 +56,23 @@ public class AlligatorMoveArea : MonoBehaviour
         {
             if (i != points.Count - 1)
             {
-                Gizmos.DrawLine(points[i].transform. position, points[i + 1].transform. position);
+                Gizmos.DrawLine(points[i]. position, points[i + 1]. position);
+              //  Gizmos.DrawRay(new Vector3(points[i].position.x, 5, points[i].position.z), new Vector3(0, -1, 0));
+
             }
             else
             {
                 Gizmos.DrawLine(points[i].transform.position, points[0].transform.position);
             }          
-        }     
+        }
+
     }
     public List<Vector3> GetPoints()
     {
         List<Vector3> points = new List<Vector3>();
-        foreach(NavMeshObstacle tr in this.points)
+        foreach(Transform tr in this.points)
         {
-            points.Add(tr.transform.position);
+            points.Add(tr.position);
         }
         return points;
     }
