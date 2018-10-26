@@ -57,7 +57,6 @@ public class AlligatorMoveArea : MonoBehaviour
             if (i != points.Count - 1)
             {
                 Gizmos.DrawLine(points[i]. position, points[i + 1]. position);
-              //  Gizmos.DrawRay(new Vector3(points[i].position.x, 5, points[i].position.z), new Vector3(0, -1, 0));
 
             }
             else
