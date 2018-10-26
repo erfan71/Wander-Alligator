@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.AI;
 
 public class AlligatorAnimation : MonoBehaviour {
 
     private Animator animator;
     [SerializeField]
-    private string walkAnimationTrigger;
-    [SerializeField]
-    private string idleAnimationTrigger;
-
+    private string walkingAnimationName;
+   
 
 	// Use this for initialization
 	void Awake () {
         animator = GetComponent<Animator>();
-
     }
+  
     public void Walk()
     {
-        animator.SetTrigger(walkAnimationTrigger);
+        animator.SetBool(walkingAnimationName, true);
     }
     public void Idle()
     {
-        animator.SetTrigger(idleAnimationTrigger);
+        animator.SetBool(walkingAnimationName, false);
 
     }
 
