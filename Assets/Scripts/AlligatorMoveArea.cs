@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,7 @@ public class AlligatorMoveArea : MonoBehaviour
     [Header("Just for Info, No need to change.")]
     [SerializeField]
     private List<Transform> points;
+    private List<Edge> lines;
     [SerializeField]
     private Vector2 xRange;
     [SerializeField]
@@ -16,12 +18,15 @@ public class AlligatorMoveArea : MonoBehaviour
     public float minDistancetoLastTarget;
 
     private Vector2 lastTarget = new Vector3(Mathf.Infinity, Mathf.Infinity);
+
+    private Color gizmozColor;
     private void LateUpdate()
     {
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
             points = new List<Transform>();
+            lines = new List<Edge>();
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform currentTra = transform.GetChild(i);
@@ -37,9 +42,9 @@ public class AlligatorMoveArea : MonoBehaviour
                 }
                 segmentObs = nextTra.transform.position - currentTra.transform.position;
 
-                NavMeshObstacle curentObs = currentTra.GetComponent<NavMeshObstacle>();
-                curentObs.size = new Vector3(0.5f, 1, segmentObs.magnitude);
-                curentObs.center = new Vector3(0, -0.5f, curentObs.size.z / 2.0f);
+                NavMeshObstacle currentObs = currentTra.GetComponent<NavMeshObstacle>();
+                currentObs.size = new Vector3(0.5f, 1, segmentObs.magnitude);
+                currentObs.center = new Vector3(0, -0.5f, currentObs.size.z / 2.0f);
                 currentTra.LookAt(nextTra.transform);
 
                 points.Add(currentTra);
@@ -47,6 +52,31 @@ public class AlligatorMoveArea : MonoBehaviour
                 RaycastHit hitInfo;
                 Physics.Raycast(new Vector3(currentTra.position.x, 5, currentTra.position.z), new Vector3(0, -1, 0), out hitInfo, 10);
                 currentTra.position = new Vector3(currentTra.position.x, hitInfo.point.y + 0.5f, currentTra.position.z);
+
+                lines.Add(new Edge(new Vector2(currentTra.position.x, currentTra.position.z), new Vector2(nextTra.position.x, nextTra.position.z)));
+            }
+            bool badEdges = false;
+            for (int i = 0; i < lines.Count; i++)
+            {
+                for (int j = 0; j < lines.Count; j++)
+                {
+                    if (i >= j) continue;
+                    Vector2 hitPoint;
+                    if (Edge.Check_Intersection(lines[i], lines[j], out hitPoint))
+                    {
+                        Debug.LogError("Edges of the polygon intersect to each other. Consider moving bad vertexes");
+                        gizmozColor = Color.red;
+                        badEdges = true;
+                        break;
+
+                    }
+                }
+            }
+            if (!badEdges)
+                gizmozColor = Color.blue;
+            if (points.Count <= 2)
+            {
+                Debug.LogError("No area could be make with less that 3 vertex. Consider adding vertex");
             }
             FindRanges();
         }
@@ -54,7 +84,7 @@ public class AlligatorMoveArea : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
+        Gizmos.color = gizmozColor;
 
         for (int i = 0; i < points.Count; i++)
         {
@@ -71,7 +101,7 @@ public class AlligatorMoveArea : MonoBehaviour
 
     }
 
-   
+
     void FindRanges()
     {
         float minX = Mathf.Infinity;
@@ -96,22 +126,26 @@ public class AlligatorMoveArea : MonoBehaviour
         xRange = new Vector2(minX, maxX);
         zRange = new Vector2(minZ, maxZ);
     }
-    public Vector3 GetRandomePoint()
+    public void GetRandomePoint(System.Action<Vector3> callBack)
+    {
+        StartCoroutine(SetTargetRoutine(callBack));
+    }
+    IEnumerator SetTargetRoutine(System.Action<Vector3> callBack)
     {
         Vector2 randomePoint = new Vector2(Random.Range(xRange.x, xRange.y), Random.Range(zRange.x, zRange.y));
 
         int count = 0;
-        while ( true)
+        while (true)
         {
             if (Vector2.Distance(randomePoint, lastTarget) > minDistancetoLastTarget)
                 if (IsPointInsideArea(randomePoint))
                     break;
             randomePoint = new Vector2(Random.Range(xRange.x, xRange.y), Random.Range(zRange.x, zRange.y));
             count++;
+            yield return null;
         }
-        Debug.Log("Find after: " + count + "try");
         lastTarget = randomePoint;
-        return randomePoint;
+        callBack?.Invoke(randomePoint);
     }
     public bool IsPointInsideArea(Vector2 testPoint)
     {
@@ -136,16 +170,16 @@ public class AlligatorMoveArea : MonoBehaviour
         angleSum = Mathf.Abs(angleSum);
         if (angleSum >= 359.9 && angleSum <= 360.1)
         {
-            Debug.Log("Yes sum: " + angleSum);
+           // Debug.Log("Yes sum: " + angleSum);
             return true;
         }
         else
         {
-            Debug.Log("No sum: " + angleSum);
-
+            //Debug.Log("No sum: " + angleSum);
             return false;
         }
     }
+
 
 
 }

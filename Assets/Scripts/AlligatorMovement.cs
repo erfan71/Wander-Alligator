@@ -21,14 +21,21 @@ public class AlligatorMovement : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<AlligatorAnimation>();
-        Idle();
+        if (isAlligatorInsideTheArea())
+        {
+            Idle();
+        }
+        else
+        {
+            Debug.LogException(new System.Exception("The alligator is not inside the area, Please move alligator inside and try again"));
+        }
     }
    
-    IEnumerator SetTargetRoutine()
+    IEnumerator SetTargetRoutine(Vector3 point)
     {
-
-        yield return new WaitForSeconds(GetRandomeStoppingTime());
-        Walk();
+        float time = GetRandomeStoppingTime();
+        yield return new WaitForSeconds(time);
+        MoveLogic(point);
         yield return null;
         while (true)
         {
@@ -36,7 +43,6 @@ public class AlligatorMovement : MonoBehaviour
             {
                 if (Mathf.Abs(agent.velocity.sqrMagnitude) < float.Epsilon)
                 {
-                    Debug.Log("idle");
                     Idle();
                     yield break;
                 }
@@ -47,28 +53,39 @@ public class AlligatorMovement : MonoBehaviour
 
     private void Walk()
     {
-        SetTarget();
         anim.Walk();
     }
     private void Idle()
     {
         anim.Idle();
-        StartCoroutine(SetTargetRoutine());
+        SetTarget();
     }
-
-    void SetTarget()
+    void MoveLogic(Vector3 point)
     {
-        Vector2 point = moveArea.GetRandomePoint();
         RaycastHit hitInfo;
         Physics.Raycast(new Vector3(point.x, 5, point.y), new Vector3(0, -1, 0), out hitInfo, 10);
         goal.transform.position = new Vector3(point.x, hitInfo.point.y, point.y);
         agent.SetDestination(goal.position);
+        agent.speed = (Random.Range(walkingSpeedRange.x, walkingSpeedRange.y));
+        Walk();
+    }
+
+    void SetTarget()
+    {
+       moveArea.GetRandomePoint((point) => {
+           StartCoroutine(SetTargetRoutine(point));
+       });
+        
     }
 
    float GetRandomeStoppingTime()
     {
         float selectedTime = Random.Range(stoppingTimeRange.x, stoppingTimeRange.y);
         return selectedTime;
+    }
+    bool isAlligatorInsideTheArea()
+    {
+       return moveArea.IsPointInsideArea(new Vector2(transform.position.x, transform.position.z));
     }
    
 }
