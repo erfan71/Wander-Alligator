@@ -41,7 +41,7 @@ public class AlligatorMovement : MonoBehaviour
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                if (Mathf.Abs(agent.velocity.sqrMagnitude) < float.Epsilon)
+                if (Mathf.Abs(agent.velocity.sqrMagnitude) < 0.01f)
                 {
                     Idle();
                     yield break;
