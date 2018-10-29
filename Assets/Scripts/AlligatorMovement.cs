@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class AlligatorMovement : MonoBehaviour
 {
 
-    // Use this for initialization
     public AlligatorMoveArea moveArea;
     public Transform goal;
 
@@ -18,7 +17,6 @@ public class AlligatorMovement : MonoBehaviour
 
     void Start()
     {
-
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<AlligatorAnimation>();
         if (isAlligatorInsideTheArea())
@@ -50,7 +48,6 @@ public class AlligatorMovement : MonoBehaviour
             yield return null;
         }
     }
-
     private void Walk()
     {
         anim.Walk();

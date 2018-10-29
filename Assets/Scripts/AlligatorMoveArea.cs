@@ -98,7 +98,6 @@ public class AlligatorMoveArea : MonoBehaviour
                 Gizmos.DrawLine(points[i].transform.position, points[0].transform.position);
             }
         }
-
     }
 
 
@@ -122,7 +121,6 @@ public class AlligatorMoveArea : MonoBehaviour
             if (z < minZ)
                 minZ = z;
         }
-
         xRange = new Vector2(minX, maxX);
         zRange = new Vector2(minZ, maxZ);
     }
@@ -170,12 +168,10 @@ public class AlligatorMoveArea : MonoBehaviour
         angleSum = Mathf.Abs(angleSum);
         if (angleSum >= 359.9 && angleSum <= 360.1)
         {
-           // Debug.Log("Yes sum: " + angleSum);
             return true;
         }
         else
         {
-            //Debug.Log("No sum: " + angleSum);
             return false;
         }
     }

@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.AI;
 
-public class AlligatorAnimation : MonoBehaviour {
-
+public class AlligatorAnimation : MonoBehaviour
+{
     private Animator animator;
     [SerializeField]
     private string walkingAnimationName;
-   
 
-	// Use this for initialization
-	void Awake () {
+    void Awake()
+    {
         animator = GetComponent<Animator>();
     }
-  
+
     public void Walk()
     {
         animator.SetBool(walkingAnimationName, true);
@@ -23,7 +22,6 @@ public class AlligatorAnimation : MonoBehaviour {
     public void Idle()
     {
         animator.SetBool(walkingAnimationName, false);
-
     }
 
 }
