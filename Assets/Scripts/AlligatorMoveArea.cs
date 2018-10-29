@@ -68,7 +68,6 @@ public class AlligatorMoveArea : MonoBehaviour
                         gizmozColor = Color.red;
                         badEdges = true;
                         break;
-
                     }
                 }
             }
